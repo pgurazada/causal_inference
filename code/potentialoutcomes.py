@@ -2,6 +2,7 @@
 Direct duplication of the excellent series of blog posts here:
 
 http://www.degeneratestate.org/posts/2018/Mar/24/causal-inference-with-python-part-1-potential-outcomes/
+https://eng.uber.com/causal-inference-at-uber/
 
 """
 
@@ -175,7 +176,8 @@ ipse = (observed_data_1[observed_data_1.x == 1]["ipsw"].sum() -
 # Do not use skllearn's logistic regression since it uses regularization by 
 # default
 
-# Sometimes there can be more than one covariate variable
+# Sometimes there can be more than one covariate variable. CausalModel can take 
+# in more than one covariate as a control (X)
 
 df = dg.generate_exercise_dataset_2()
 
@@ -197,6 +199,7 @@ causal_model.est_via_blocking()
 
 print(causal_model.estimates)
 
-# Ultimately blindly controlling for everything we an measure, however good our 
+# Final lesson: 
+# Blindly controlling for everything we can measure, however good our 
 # method might be, without a reasonable causal graph underlying the process is 
 # guaranteed to produce unreliable results
