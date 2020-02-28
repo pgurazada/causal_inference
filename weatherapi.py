@@ -1,3 +1,5 @@
+# Adapted from - https://www.geeksforgeeks.org/python-find-current-weather-of-any-city-using-openweathermap-api/
+
 import sys
 import requests
 import json
