@@ -9,12 +9,14 @@ from pathlib import Path
 data_dir = Path("data", "colonial-origins")
 data_file = data_dir / "colonial-origins-data.dta"
 
-data_df = pd.read_stata(data_file)
+data_df = (pd.read_stata(data_file)
+             .rename(columns={"risk": "protection"}))
+
 
 # Model
 
 model = CausalModel(data=data_df,
-                    treatment="risk",
+                    treatment="protection",
                     outcome="loggdp",
                     common_causes=["latitude", "asia", "africa", "other"],
                     instruments=["logmort0"])
@@ -38,3 +40,15 @@ estimate_iv = model.estimate_effect(identified_estimand,
                                     test_significance=True)
 
 print(estimate_iv)
+
+# Refute
+
+model.refute_estimate(identified_estimand, 
+                      estimate_bd,
+                      method_name="data_subset_refuter",
+                      subset_fraction=0.9)
+
+model.refute_estimate(identified_estimand,
+                      estimate_iv,
+                      method_name="data_subset_refuter",
+                      subset_fraction=0.9)
